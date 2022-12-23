@@ -1,0 +1,8 @@
+#include<stdio.h>
+
+struct Student {
+    char name [25] ;
+    int  Age ;
+    float GPA ;
+    char Sex ; 
+};
