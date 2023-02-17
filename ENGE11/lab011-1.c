@@ -16,6 +16,7 @@ int main() {
 }
 
 int BinSearch(int data[], int n, int find) {
+    // position is int j == prev ; j == rear ; m == mid
     int i , j , m , pos ;
     i = 0 ; 
     j = n - 1 ;
