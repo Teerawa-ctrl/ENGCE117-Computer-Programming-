@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int compare(const void* a, const void* b) {
+    // Compare function for qsort to sort in descending order of v/w
+    double r1 = *((double*)a);
+    double r2 = *((double*)b);
+    if (r1 > r2) return -1;
+    if (r1 < r2) return 1;
+    return 0;
+}
+
+int* KnapsackGreedy(int* w, int* v, int n, int wx) {
+    // Create an array to store the items selected (1) or not selected (0)
+    int* x = (int*)malloc(n * sizeof(int));
+    // Create an array to store the v/w ratios for each item
+    double* r = (double*)malloc(n * sizeof(double));
+    for (int i = 0; i < n; i++) {
+        r[i] = (double)v[i] / w[i];
+        x[i] = 0;
+    }
+    // Sort the items in descending order of v/w ratios
+    qsort(r, n, sizeof(double), compare);
+    int weight = 0;
+    // Loop through the items and select them if they fit in the knapsack
+    for (int i = 0; i < n; i++) {
+        int j = 0;
+        while (j < n && r[i] != (double)v[j] / w[j]) j++;
+        if (weight + w[j] <= wx) {
+            x[j] = 1;
+            weight += w[j];
+        }
+    }
+    free(r);
+    return x;
+}
+
+int main() {
+    int n = 5, wx = 11;
+    int w[5] = { 1, 2, 5, 6, 7 };
+    int v[5] = { 1, 6, 18, 22, 28 };
+    int* x = KnapsackGreedy(w, v, n, wx);
+    for (int i = 0; i < n; i++) printf("%d ", x[i]);
+    free(x);
+    return 0;
+}
